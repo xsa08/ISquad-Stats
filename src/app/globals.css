@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+body {
+  background-size: cover;
+  color: white;
+  margin: 0;
+  font-family: sans-serif;
+}
+@keyframes gradientMove {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@media print {
+  body {
+    background: white !important;
+    color: black !important;
+    font-family: Arial, sans-serif !important;
+    padding: 2cm;
+  }
+
+  .print-hidden {
+    display: none !important;
+  }
+
+  .report-section {
+    margin-bottom: 2rem;
+    page-break-inside: avoid;
+  }
+
+  h1, h2, h3 {
+    color: black !important;
+    font-weight: bold;
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12pt;
+  }
+
+  th, td {
+    border: 1px solid #999;
+    padding: 8px;
+    text-align: left;
+  }
+}
+
+
