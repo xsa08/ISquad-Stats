@@ -10,6 +10,7 @@ import AnalyticsChart from './AnalyticsChart';
 import TextAnalyticsChart from './TextAnalyticsChart';
 import { Table, BarChart3, Type } from 'lucide-react';
 import jsPDF from 'jspdf';
+// تجاهل الخطأ مؤقتًا لمكتبة JavaScript بدون types
 // @ts-ignore
 import domtoimage from 'dom-to-image';
 
@@ -98,63 +99,63 @@ export default function FileUploadBox() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col justify-between">
-      <main className="flex-grow">
-        <div className="w-[90%] max-w-xl mx-auto mt-16 text-center">
-          <div className="relative z-10">
-            <div className="text-white text-lg mb-6 font-medium flex items-center justify-center gap-2">
-              <span className="text-yellow-400 text-2xl"></span>
-              {language === 'ar'
-                ? '✨! قم برفع ملف  للحصول على تحليلات تفاعلية وذكية'
-                : ' Upload file to get interactive and smart analytics!✨'}
-            </div>
+    <>
+    <div className="w-[90%] max-w-xl mx-auto mt-16 text-center">
+  <div className="relative z-10">
+    <div className="text-white text-xl font-bold mb-6 flex items-center justify-center gap-2">
+      <span className="text-yellow-400 text-2xl"></span>
+      {language === 'ar'
+        ? '✨!للحصول على تحليلات تفاعلية وذكية قم برفع الملف '
+        : ' Upload your file to get interactive and smart analytics!✨'}
+    </div>
+</div>
+
+
+        <div className="backdrop-blur-sm bg-white/10 rounded-2xl p-8 shadow-lg border border-white/20">
+          <div
+            onClick={handleClick}
+            className="cursor-pointer py-10 px-4 border-2 border-dashed border-white/30 rounded-xl hover:border-white transition"
+          >
+            <p className="text-white opacity-80">
+            {language === 'ar' ? 'انقر لاختيار الملف' : 'Click to select file'}
+          </p>
+          <p className="text-sm text-gray-300 mt-2">(.json, .xlsx, .csv)</p>
           </div>
 
-          <div className="backdrop-blur-sm bg-white/10 rounded-2xl p-8 shadow-lg border border-white/20">
-            <div
-              onClick={handleClick}
-              className="cursor-pointer py-10 px-4 border-2 border-dashed border-white/30 rounded-xl hover:border-white transition"
-            >
-              <p className="text-white opacity-80">
-                {language === 'ar' ? 'انقر لاختيار الملف' : 'Click to select file'}
-              </p>
-              <p className="text-sm text-gray-300 mt-2">(.json, .xlsx, .csv)</p>
+          <input
+            ref={fileInputRef}
+            type="file"
+            accept=".json,.xlsx,.csv"
+            onChange={handleFileChange}
+            hidden
+          />
+
+          {uploaded && (
+            <div className="mt-4 text-green-300">
+              ✅ {language === 'ar' ? 'تم رفع الملف:' : 'Uploaded:'}{' '}
+              <span className="underline">{fileName}</span>
             </div>
+          )}
 
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept=".json,.xlsx,.csv"
-              onChange={handleFileChange}
-              hidden
-            />
-
-            {uploaded && (
-              <div className="mt-4 text-green-300">
-                ✅ {language === 'ar' ? 'تم رفع الملف:' : 'Uploaded:'}{' '}
-                <span className="underline">{fileName}</span>
-              </div>
-            )}
-
-            {error && (
-              <div className="mt-4 text-red-400">
-                ⚠️ {error}
-              </div>
-            )}
-          </div>
+          {error && (
+            <div className="mt-4 text-red-400">
+              ⚠️ {error}
+            </div>
+          )}
         </div>
+      </div>
 
-        {rawData.length > 0 && (
-          <div className="mt-10 w-[90%] max-w-5xl mx-auto space-y-16" id="report-content">
-            <div className="relative z-10">
-              <h3 className="text-white text-2xl font-bold mb-4 flex items-center gap-3 z-10 relative">
-                <Table className="w-6 h-6 text-white" />
-                {language === 'ar' ? ' جدول البيانات' : ' Data Table'}
-              </h3>
-              <DataTable data={rawData} language={language} />
-            </div>
+      {rawData.length > 0 && (
+        <div className="mt-10 w-[90%] max-w-5xl mx-auto space-y-16" id="report-content">
+          <div className="relative z-10">
+            <h3 className="text-white text-2xl font-bold mb-4 flex items-center gap-3 z-10 relative">
+              <Table className="w-6 h-6 text-white" />
+              {language === 'ar' ? ' جدول البيانات' : ' Data Table'}
+            </h3>
+            <DataTable data={rawData} language={language} />
+          </div>
 
-             {/* 🔵 تحليل القيم الرقمية */}
+        {/* 🔵 تحليل القيم الرقمية */}
     {Object.keys(numericStats).length > 0 && (
       <div className="relative z-10"  id="report-content">
         <h3 className="text-white text-2xl font-bold mb-4 flex items-center gap-3 z-10 relative">
@@ -175,7 +176,7 @@ export default function FileUploadBox() {
       </div>
     )}
 
-         {/* 🟣 تحليل القيم النصية */}
+          {/* 🟣 تحليل القيم النصية */}
     {textStats.length > 0 && (
       <div className="relative z-10"  id="report-content">
         <h3 className="text-white text-2xl font-bold mb-4 flex items-center gap-3 z-10 relative">
@@ -196,12 +197,10 @@ export default function FileUploadBox() {
       </div>
     )}
 
-           
-          </div>
-        )}
-      </main>
 
-
-    </div>
+        
+        </div>
+      )}
+    </>
   );
 }
